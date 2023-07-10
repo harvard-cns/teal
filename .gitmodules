@@ -1,0 +1,3 @@
+[submodule "pop-ncflow-lptop"]
+	path = pop-ncflow-lptop
+	url = https://github.com/harvard-cns/pop-ncflow-lptop
