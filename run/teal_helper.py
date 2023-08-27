@@ -75,6 +75,8 @@ for key, vals in GROUPED_BY_HOLDOUT_PROBLEMS.items():
 
 
 def get_problems(args):
+    if (args.topo, args.tm_model, args.scale_factor) not in GROUPED_BY_PROBLEMS:
+        raise Exception('Traffic matrices not found')
     problems = []
     for topo_fname, tm_fname in GROUPED_BY_PROBLEMS[
             (args.topo, args.tm_model, args.scale_factor)]:
