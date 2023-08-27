@@ -75,6 +75,8 @@ while retaining near-optimal flow allocations.
                             # (e.g. `B4.json_real_0_1.0_traffic-matrix.pkl`)
 ```
 
+*Note:* As we are not allowed to share the proprietary traffic data from Microsoft WAN (or the Teal model trained on that data), we have included the publicly accessible Yates traffic data, mapping it to the B4 topology as an example to facilitate code testing.
+
 ## Evaluating Teal
 To evaluate Teal:
 ```
