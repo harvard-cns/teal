@@ -13,12 +13,13 @@ def weight_initialization(module):
         torch.nn.init.constant_(module.bias, 0)
 
 
-# Uniform random variable [low, high)
 def uni_rand(low=-1, high=1):
+    """Uniform random variable [low, high)"""
     return (high - low) * np.random.rand() + low
 
 
 def print_(*args, file=None):
+    """print out *args to file"""
     if file is None:
         file = sys.stdout
     print(*args, file=file)

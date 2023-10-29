@@ -1,6 +1,6 @@
 # Teal: Traffic Engineering Accelerated by Learning
 
-Teal is a learning-based traffic engineering (TE) algorithm for wide-area networks (WANs) published at ACM SIGCOMM '23.
+[Teal](https://dl.acm.org/doi/10.1145/3603269.3604857) is a learning-based traffic engineering (TE) algorithm for wide-area networks (WANs) published at ACM SIGCOMM '23.
 By harnessing the parallel processing power of GPUs, Teal achieves unprecedented
 acceleration of TE control, surpassing production TE solvers by several orders of magnitude
 while retaining near-optimal flow allocations.
@@ -62,7 +62,7 @@ while retaining near-optimal flow allocations.
 ## Code structure
 ```
 .
-├── lib                     # source code for Teal
+├── lib                     # source code for Teal (details in lib/README.md)
 ├── pop-ncflow-lptop        # submodule for baselines
 │   ├── benchmarks          # test code for baselines
 │   ├── ext                 # external code for baselines
@@ -71,8 +71,9 @@ while retaining near-optimal flow allocations.
 ├── topologies              # network topologies with link capacity (e.g. `B4.json`)
 │   └── paths               # paths in topologies (auto-generated if not existent)
 └── traffic-matrices        # TE traffic matrices
-    └── real                # real traffic matrices from abilene.txt in Yates (https://github.com/cornell-netlab/yates)
-                            # (e.g. `B4.json_real_0_1.0_traffic-matrix.pkl`)
+    ├── real                # real traffic matrices from abilene.txt in Yates (https://github.com/cornell-netlab/yates)
+    │                       # (e.g. `B4.json_real_0_1.0_traffic-matrix.pkl`)
+    └── toy                 # toy traffic matrices (e.g. `ASN2k.json_toy_0_1.0_traffic-matrix.pkl`)
 ```
 
 *Note:* As we are not allowed to share the proprietary traffic data from Microsoft WAN (or the Teal model trained on that data), we have included the publicly accessible Yates traffic data, mapping it to the B4 topology as an example to facilitate code testing.
@@ -90,10 +91,21 @@ Training epoch 1/3: 100%|██████████████████�
 Training epoch 2/3: 100%|█████████████████████████████████| 1/1 [00:00<00:00,  2.61it/s]
 Testing: 100%|████████████████| 8/8 [00:00<00:00, 38.06it/s, runtime=0.0133, obj=0.9537]
 ```
+
+To show explanations on the input parameters:
+```
+$ python teal.py --help
+```
+
 Results will be saved in
 - `teal-total_flow-all.csv`: performance numbers
 - `teal-logs`: directory with TE solution matrices
 - `teal-models`: directory to save the trained models when `--model-save True`
+
+The real traffic matrices are only publicly available for B4 topology (`B4.json`). Please use toy traffic matrices for UsCarrier topology (`UsCarrier.json`), Kdl topology (`Kdl.json`), and ASN topology (`ASN2k.json`). Take UsCarrier topology as an example, run 
+```
+$ python teal.py --obj total_flow --topo UsCarrier.json --tm-model toy --epochs 3 --admm-steps 2
+```
 
 ## Evaluating baselines
 Teal is compared with the following baselines:
@@ -104,7 +116,7 @@ Teal is compared with the following baselines:
 
 To run the baselines:
 ```
-$ cd ./pop-ncflow-lptop/benchmarks
+$ cd ../pop-ncflow-lptop/benchmarks
 $ python path_form.py --obj total_flow --topos B4.json
 $ python top_form.py --obj total_flow --topos B4.json
 $ python ncflow.py --obj total_flow --topos B4.json
@@ -114,9 +126,30 @@ Results will be saved in
 - `path-form-total_flow-all.csv`, `top-form-total_flow-all.csv`, `ncflow-total_flow-all.csv`, `pop-total_flow-all.csv`: performance numbers
 - `path-form-logs`, `top-form-logs`, `ncflow-logs`, `pop-logs`: directory with TE solution matrices
 
+The real traffic matrices are only publicly available for B4 topology (`B4.json`). Please use toy traffic matrices for UsCarrier topology (`UsCarrier.json`), Kdl topology (`Kdl.json`), and ASN topology (`ASN2k.json`). Take UsCarrier topology as an example, run 
+```
+$ python path_form.py --obj total_flow --tm-models toy --topos UsCarrier.json
+$ python top_form.py --obj total_flow --tm-models toy --topos UsCarrier.json
+$ python ncflow.py --obj total_flow --tm-models toy --topos UsCarrier.json
+$ python pop.py --obj total_flow --tm-models toy --topos UsCarrier.json --algo-cls PathFormulation --split-fractions 0.25 --num-subproblems 4
+```
+
 ## Extending Teal
 
 To add another TE implementation to this repo,
 
 - If the implementation is based on linear programming or Gurobi, add test code to `./pop-ncflow-lptop/benchmarks/` and source code to `./pop-ncflow-lptop/lib/algorithms`. Code in `./pop-ncflow-lptop/lib` (e.g., `lp_solver.py`, `traffic_matrix.py`) and `./pop-ncflow-lptop/benchmarks` (e.g., `benchmark_helpers.py`) is reusable.
 - If the implementation is based on machine learning, add test code to `./run/` and source code to `./lib/`. Code in `./lib/` (e.g., `teal_env.py`, `utils.py`) and `./run/` (e.g., `teal_helpers.py`) is reusable.
+
+
+### Citation
+If you use this code for your research, please cite our paper: 
+```
+@inproceedings{teal,
+    title={Teal: Learning-Accelerated Optimization of WAN Traffic Engineering},
+    author={Xu, Zhiying and Yan, Francis Y and Singh, Rachee and Chiu, Justin T and Rush, Alexander M and Yu, Minlan},
+    booktitle={Proceedings of the ACM SIGCOMM 2023 Conference},
+    pages={378--393},
+    year={2023}
+}
+```

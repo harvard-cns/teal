@@ -17,6 +17,7 @@ PROBLEM_NAMES = [
 ]
 TM_MODELS = [
     "real",
+    "toy",
 ]
 SCALE_FACTORS = [1.0]
 OBJ_STRS = ["total_flow", "min_max_link_util"]
@@ -89,53 +90,74 @@ def get_args_and_problems(formatted_fname_template, additional_args=[]):
 
     # Problems arguments
     parser.add_argument(
-        "--dry-run", dest="dry_run", default=False, action="store_true")
+        "--dry-run", dest="dry_run", default=False, action="store_true",
+        help="list problems to run")
     parser.add_argument(
-        "--obj", type=str, default='total_flow', choices=OBJ_STRS)
+        "--obj", type=str, default='total_flow', choices=OBJ_STRS,
+        help="objective function")
     parser.add_argument(
-        "--tm-model", type=str, default='real', choices=TM_MODELS)
+        "--tm-model", type=str, default='real', choices=TM_MODELS,
+        help="traffic matrix model")
     parser.add_argument(
-        "--topo", type=str, required=True, choices=PROBLEM_NAMES)
+        "--topo", type=str, required=True, choices=PROBLEM_NAMES,
+        help="network topology")
     parser.add_argument(
-        "--scale-factor", type=float, default=1.0, choices=SCALE_FACTORS)
+        "--scale-factor", type=float, default=1.0, choices=SCALE_FACTORS,
+        help="traffic matrix scale factor")
     parser.add_argument(
-        '--devid', type=int, default=0, help='device id')
+        '--devid', type=int, default=0,
+        help='GPU device id')
     parser.add_argument(
-        '--model-save', type=bool, default=False, help='whether to save model')
+        '--model-save', type=bool, default=False,
+        help='whether to save model')
 
     # env hyper-parameters
     parser.add_argument(
-        '--slice-train-start', type=int, default=0)
+        '--slice-train-start', type=int, default=0,
+        help="start index of training")
     parser.add_argument(
-        '--slice-train-stop', type=int, default=20)
+        '--slice-train-stop', type=int, default=20,
+        help="end index of training")
     parser.add_argument(
-        '--slice-val-start', type=int, default=20)
+        '--slice-val-start', type=int, default=20,
+        help="start index of validation")
     parser.add_argument(
-        '--slice-val-stop', type=int, default=28)
+        '--slice-val-stop', type=int, default=28,
+        help="end index of validation")
     parser.add_argument(
-        '--slice-test-start', type=int, default=28)
+        '--slice-test-start', type=int, default=28,
+        help="start index of testing")
     parser.add_argument(
-        '--slice-test-stop', type=int, default=36)
+        '--slice-test-stop', type=int, default=36,
+        help="end index of testing")
 
     # actor hyper-parameters
     parser.add_argument(
-        '--layers', type=int, default=6, help='number of flowGNN layers')
+        '--layers', type=int, default=6,
+        help='number of flowGNN layers')
     parser.add_argument(
-        '--rho', type=float, default=1.0, help='rho in ADMM')
+        '--rho', type=float, default=1.0,
+        help='rho in ADMM')
 
     # training hyper-parameters
     parser.add_argument(
-        '--lr', type=float, default=0.0001, help='learning rate')
+        '--lr', type=float, default=0.0001,
+        help='learning rate')
     parser.add_argument(
-        '--epochs', type=int, default=0, help='number of training epochs')
+        '--epochs', type=int, default=0,
+        help='number of training epochs')
     parser.add_argument(
-        '--bsz', type=int, default=20, help='batch size')
+        '--bsz', type=int, default=20,
+        help='batch size')
     parser.add_argument(
-        '--samples', type=int, default=5, help='number of COMA samples')
+        '--samples', type=int, default=5,
+        help='number of COMA samples')
     parser.add_argument(
-        '--admm-steps', type=int, default=5, help='number of ADMM steps')
+        '--admm-steps', type=int, default=5,
+        help='number of ADMM steps')
     parser.add_argument(
-        '--early-stop', type=bool, default=False, help='whether to stop early')
+        '--early-stop', type=bool, default=False,
+        help='whether to stop early')
 
     for add_arg in additional_args:
         name_or_flags, kwargs = add_arg[0], add_arg[1]
