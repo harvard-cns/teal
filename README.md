@@ -22,7 +22,7 @@ while retaining near-optimal flow allocations.
 ### Dependencies
 - Run `conda env create -f environment.yml` to create a Conda environment with essential Python dependencies
     - [Miniconda](https://docs.anaconda.com/free/anaconda/install/index.html) or [Anaconda](https://docs.anaconda.com/free/anaconda/install/index.html) is required
-- Run `conda activate teal` to activate the Conda environment (with the subsequent steps to be performed within the Conda environment)
+- Run `conda activate teal` to activate the Conda environment. All the following steps related to Python (e.g., `pip` and `python` commands) **must be performed within this Conda environment** to ensure correct Python dependencies.
 - Run `pip install -r requirements.txt` to install additional Python dependencies
 
 #### Dependencies only required for baselines
