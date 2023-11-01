@@ -1,6 +1,6 @@
 # Teal: Traffic Engineering Accelerated by Learning
 
-[Teal](https://dl.acm.org/doi/10.1145/3603269.3604857) is a learning-based traffic engineering (TE) algorithm for wide-area networks (WANs) published at ACM SIGCOMM '23.
+[Teal](https://dl.acm.org/doi/10.1145/3603269.3604857) is a learning-accelerated traffic engineering (TE) algorithm for cloud wide-area networks (WANs), published at ACM SIGCOMM '23.
 By harnessing the parallel processing power of GPUs, Teal achieves unprecedented
 acceleration of TE control, surpassing production TE solvers by several orders of magnitude
 while retaining near-optimal flow allocations.
