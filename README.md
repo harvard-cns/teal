@@ -76,10 +76,10 @@ while retaining near-optimal flow allocations.
     └── toy                 # toy traffic matrices (e.g. `ASN2k.json_toy_0_1.0_traffic-matrix.pkl`)
 ```
 
-*Note:* As we are not allowed to share the proprietary traffic data from Microsoft WAN (or the Teal model trained on that data), we have included the publicly accessible Yates traffic data, mapping it to the B4 topology as an example to facilitate code testing.
+**Note:** As we are not allowed to share the proprietary traffic data from Microsoft WAN (or the Teal model trained on that data), we mapped the publicly accessible Yates traffic data to the B4 topology to facilitate code testing. For the other topologies (UsCarrier, Kdl, and ASN), we synthetically generated "toy" traffic matrices due to their larger sizes.
 
 ## Evaluating Teal
-To evaluate Teal:
+To evaluate Teal on the B4 topology:
 ```
 $ cd ./run
 $ python teal.py --obj total_flow --topo B4.json --epochs 3 --admm-steps 2
@@ -102,7 +102,7 @@ Results will be saved in
 - `teal-logs`: directory with TE solution matrices
 - `teal-models`: directory to save the trained models when `--model-save True`
 
-The real traffic matrices are only publicly available for B4 topology (`B4.json`). Please use toy traffic matrices for UsCarrier topology (`UsCarrier.json`), Kdl topology (`Kdl.json`), and ASN topology (`ASN2k.json`). Take UsCarrier topology as an example, run 
+Realistic traffic matrices are only available for B4 (please refer to the [note](#code-structure) above). For the other topologies — UsCarrier (`UsCarrier.json`), Kdl (`Kdl.json`), or ASN (`ASN2k.json`), use the "toy" traffic matrices we generated (taking UsCarrier as an example): 
 ```
 $ python teal.py --obj total_flow --topo UsCarrier.json --tm-model toy --epochs 3 --admm-steps 2
 ```
@@ -114,9 +114,9 @@ Teal is compared with the following baselines:
 - NCFlow (`ncflow.py`): the NCFlow algorithm from the NSDI '21 paper: [*Contracting Wide-area Network Topologies to Solve Flow Problems Quickly*](https://www.usenix.org/conference/nsdi21/presentation/abuzaid)
 - POP (`pop.py`): the POP algorithm from the SOSP '21 paper: [*Solving Large-Scale Granular Resource Allocation Problems Efficiently with POP*](https://dl.acm.org/doi/10.1145/3477132.3483588)
 
-To run the baselines:
+To evaluate the baselines on B4, run the following commands from the project root:
 ```
-$ cd ../pop-ncflow-lptop/benchmarks
+$ cd ./pop-ncflow-lptop/benchmarks
 $ python path_form.py --obj total_flow --topos B4.json
 $ python top_form.py --obj total_flow --topos B4.json
 $ python ncflow.py --obj total_flow --topos B4.json
@@ -126,7 +126,7 @@ Results will be saved in
 - `path-form-total_flow-all.csv`, `top-form-total_flow-all.csv`, `ncflow-total_flow-all.csv`, `pop-total_flow-all.csv`: performance numbers
 - `path-form-logs`, `top-form-logs`, `ncflow-logs`, `pop-logs`: directory with TE solution matrices
 
-The real traffic matrices are only publicly available for B4 topology (`B4.json`). Please use toy traffic matrices for UsCarrier topology (`UsCarrier.json`), Kdl topology (`Kdl.json`), and ASN topology (`ASN2k.json`). Take UsCarrier topology as an example, run 
+To test on UsCarrier (`UsCarrier.json`), Kdl (`Kdl.json`), or ASN (`ASN2k.json`), specify the "toy" traffic matrices we generated (taking UsCarrier as an example): 
 ```
 $ python path_form.py --obj total_flow --tm-models toy --topos UsCarrier.json
 $ python top_form.py --obj total_flow --tm-models toy --topos UsCarrier.json
