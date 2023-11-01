@@ -142,14 +142,15 @@ To add another TE implementation to this repo,
 - If the implementation is based on machine learning, add test code to `./run/` and source code to `./lib/`. Code in `./lib/` (e.g., `teal_env.py`, `utils.py`) and `./run/` (e.g., `teal_helpers.py`) is reusable.
 
 
-### Citation
-If you use this code for your research, please cite our paper: 
+## Citation
+If you use our code in your research, please cite our paper:
 ```
 @inproceedings{teal,
     title={Teal: Learning-Accelerated Optimization of WAN Traffic Engineering},
-    author={Xu, Zhiying and Yan, Francis Y and Singh, Rachee and Chiu, Justin T and Rush, Alexander M and Yu, Minlan},
+    author={Xu, Zhiying and Yan, Francis Y. and Singh, Rachee and Chiu, Justin T. and Rush, Alexander M. and Yu, Minlan},
     booktitle={Proceedings of the ACM SIGCOMM 2023 Conference},
     pages={378--393},
+    month=sep,
     year={2023}
 }
 ```
