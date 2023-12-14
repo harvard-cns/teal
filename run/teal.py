@@ -59,6 +59,8 @@ def benchmark(problems, output_csv, arg):
     batch_size = args.bsz
     num_sample = args.samples
     num_admm_step = args.admm_steps
+    # testing hyper-parameters
+    num_failure = args.failures
 
     # ========== init teal env, actor, model
     teal_env = TealEnv(
@@ -72,6 +74,7 @@ def benchmark(problems, output_csv, arg):
         train_size=train_size,
         val_size=val_size,
         test_size=test_size,
+        num_failure=num_failure,
         device=device)
     teal_actor = TealActor(
         teal_env=teal_env,

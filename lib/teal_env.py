@@ -3,6 +3,7 @@ import json
 import os
 import math
 import time
+import random
 from itertools import product
 
 from networkx.readwrite import json_graph
@@ -23,7 +24,7 @@ class TealEnv(object):
     def __init__(
             self, obj, topo, problems,
             num_path, edge_disjoint, dist_metric, rho,
-            train_size, val_size, test_size, device,
+            train_size, val_size, test_size, num_failure, device,
             raw_action_min=-10.0, raw_action_max=10.0):
         """Initialize Teal environment.
 
@@ -53,6 +54,7 @@ class TealEnv(object):
         self.train_start, self.train_stop = train_size
         self.val_start, self.val_stop = val_size
         self.test_start, self.test_stop = test_size
+        self.num_failure = num_failure
         self.device = device
 
         # init matrices related to topology
@@ -104,6 +106,12 @@ class TealEnv(object):
             [[ele]*self.num_path for i, ele in enumerate(tm.flatten())
                 if i % len(tm) != i//len(tm)]).flatten()
         obs = torch.concat([self.capacity, tm]).to(self.device)
+        # simulate link failures in testing
+        if self.num_failure > 0 and self.idx_start == self.test_start:
+            idx_failure = torch.tensor(
+                random.sample(range(self.num_edge_node),
+                self.num_failure)).to(self.device)
+            obs[idx_failure] = 0
         return obs
 
     def _next_obs(self):

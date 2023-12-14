@@ -159,6 +159,10 @@ def get_args_and_problems(formatted_fname_template, additional_args=[]):
         '--early-stop', type=bool, default=False,
         help='whether to stop early')
 
+    # testing hyper-parameters
+    parser.add_argument(
+        '--failures', type=int, default=0, help='number of edge failures')
+
     for add_arg in additional_args:
         name_or_flags, kwargs = add_arg[0], add_arg[1]
         parser.add_argument(name_or_flags, **kwargs)
